@@ -1,0 +1,16 @@
+<div class="header">
+  <h2 class="logo">LOGO</h2>
+  <ul>
+    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+    <li>
+      <a routerLink="/new-product" routerLinkActive="active">New Product</a>
+    </li>
+    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+
+    <div class="cart">
+      <button class="cart-button" (click)="handleCart()">Cart</button>
+      <p>{{ totalCart }}</p>
+    </div>
+  </ul>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <h1 *ngIf="isLoading">Loading...</h1>
+
+  <h2 *ngIf="!isLoading">Daftar Produk</h2>
+
+  <div class="products">
+    <a *ngFor="let product of products" routerLink="/product/{{ product.id }}">
+      <h3>{{ product.title }}</h3>
+      <p>Harga: ${{ product.price }}</p>
+      <p>{{ product.description }}</p>
+      <img
+        [src]="product.thumbnail"
+        [alt]="product.title"
+        style="width: 100px"
+      />
+      <!-- <hr /> -->
+    </a>
+  </div>
+</div>

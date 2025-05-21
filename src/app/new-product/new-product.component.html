@@ -1,0 +1,201 @@
+<div class="add-product-container">
+  <h1>Tambahkan Produk Baru</h1>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-group">
+      <label for="title">Judul Produk *</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+      />
+      <div *ngIf="submitted && f['title'].errors" class="error-message">
+        <div *ngIf="f['title'].errors['required']">Judul produk diperlukan</div>
+        <div *ngIf="f['title'].errors['minlength']">
+          Judul produk minimal 3 karakter
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Deskripsi *</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="4"
+        [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
+      ></textarea>
+      <div *ngIf="submitted && f['description'].errors" class="error-message">
+        <div *ngIf="f['description'].errors['required']">
+          Deskripsi diperlukan
+        </div>
+        <div *ngIf="f['description'].errors['minlength']">
+          Deskripsi minimal 10 karakter
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="price">Harga ($) *</label>
+        <input
+          type="number"
+          id="price"
+          formControlName="price"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['price'].errors }"
+        />
+        <div *ngIf="submitted && f['price'].errors" class="error-message">
+          <div *ngIf="f['price'].errors['required']">Harga diperlukan</div>
+          <div *ngIf="f['price'].errors['min']">Harga harus lebih dari 0</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="discountPercentage">Diskon (%)</label>
+        <input
+          type="number"
+          id="discountPercentage"
+          formControlName="discountPercentage"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': submitted && f['discountPercentage'].errors
+          }"
+        />
+        <div
+          *ngIf="submitted && f['discountPercentage'].errors"
+          class="error-message"
+        >
+          <div *ngIf="f['discountPercentage'].errors['min']">
+            Diskon tidak boleh negatif
+          </div>
+          <div *ngIf="f['discountPercentage'].errors['max']">
+            Diskon maksimal 99%
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rating">Rating (0-5)</label>
+        <input
+          type="number"
+          step="0.1"
+          id="rating"
+          formControlName="rating"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['rating'].errors }"
+        />
+        <div *ngIf="submitted && f['rating'].errors" class="error-message">
+          <div *ngIf="f['rating'].errors['min']">Rating minimal 0</div>
+          <div *ngIf="f['rating'].errors['max']">Rating maksimal 5</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="stock">Stok *</label>
+        <input
+          type="number"
+          id="stock"
+          formControlName="stock"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['stock'].errors }"
+        />
+        <div *ngIf="submitted && f['stock'].errors" class="error-message">
+          <div *ngIf="f['stock'].errors['required']">Stok diperlukan</div>
+          <div *ngIf="f['stock'].errors['min']">Stok tidak boleh negatif</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="brand">Brand *</label>
+        <input
+          type="text"
+          id="brand"
+          formControlName="brand"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['brand'].errors }"
+        />
+        <div *ngIf="submitted && f['brand'].errors" class="error-message">
+          <div *ngIf="f['brand'].errors['required']">Brand diperlukan</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Kategori *</label>
+        <select
+          id="category"
+          formControlName="category"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['category'].errors }"
+        >
+          <option value="">-- Pilih Kategori --</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+        <div *ngIf="submitted && f['category'].errors" class="error-message">
+          <div *ngIf="f['category'].errors['required']">
+            Kategori diperlukan
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="thumbnail">URL Thumbnail *</label>
+      <input
+        type="text"
+        id="thumbnail"
+        formControlName="thumbnail"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f['thumbnail'].errors }"
+        placeholder="https://example.com/image.jpg"
+      />
+      <div *ngIf="submitted && f['thumbnail'].errors" class="error-message">
+        <div *ngIf="f['thumbnail'].errors['required']">
+          URL thumbnail diperlukan
+        </div>
+        <div *ngIf="f['thumbnail'].errors['pattern']">URL tidak valid</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="images">URL Gambar (pisahkan dengan koma)</label>
+      <textarea
+        id="images"
+        formControlName="images"
+        class="form-control"
+        rows="3"
+        placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+      ></textarea>
+      <small class="form-text text-muted"
+        >Masukkan URL gambar dipisahkan dengan koma</small
+      >
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+        Tambahkan Produk
+      </button>
+      <button type="button" class="btn btn-secondary" routerLink="/">
+        Batal
+      </button>
+    </div>
+  </form>
+</div>

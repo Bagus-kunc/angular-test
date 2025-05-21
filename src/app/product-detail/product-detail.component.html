@@ -1,0 +1,76 @@
+<div class="container product-detail">
+  <div *ngIf="loading" class="loading">
+    <p>Loading product details...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+    <button routerLink="/">Kembali ke Home</button>
+  </div>
+
+  <div *ngIf="product && !loading" class="product-content">
+    <button routerLink="/products" class="back-button">← Kembali</button>
+
+    <div class="product-grid">
+      <div class="product-images">
+        <img
+          [src]="product.thumbnail"
+          [alt]="product.title"
+          class="main-image"
+        />
+
+        <div
+          class="image-gallery"
+          *ngIf="product.images && product.images.length"
+        >
+          <img
+            *ngFor="let image of product.images"
+            [src]="image"
+            [alt]="product.title"
+            class="gallery-image"
+          />
+        </div>
+      </div>
+
+      <div class="product-info">
+        <h1>{{ product.title }}</h1>
+        <div class="product-meta">
+          <span class="brand">{{ product.brand }}</span>
+          <span class="category">{{ product.category }}</span>
+          <span class="rating">Rating: {{ product.rating }}/5</span>
+        </div>
+
+        <div class="price-section">
+          <span class="price">${{ product.price }}</span>
+          <span class="discount" *ngIf="product.discountPercentage">
+            {{ product.discountPercentage }}% OFF
+          </span>
+        </div>
+
+        <p class="description">{{ product.description }}</p>
+
+        <div
+          class="stock-info"
+          [ngClass]="{
+            'in-stock': product.stock > 0,
+            'out-of-stock': product.stock <= 0
+          }"
+        >
+          {{
+            product.stock > 0
+              ? "In Stock: " + product.stock + " items"
+              : "Out of Stock"
+          }}
+        </div>
+
+        <button
+          class="add-to-cart"
+          (click)="addToCart(product.id)"
+          [disabled]="isInCart(product.id)"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
